@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { StationsModule } from './stations/stations.module';
 import { RoutesModule } from './routes/routes.module';
+import { TrainsModule } from './trains/trains.module';
 
 @Module({
   imports: [
@@ -36,6 +37,8 @@ import { RoutesModule } from './routes/routes.module';
     StationsModule,
 
     RoutesModule,
+
+    TrainsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
