@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Station } from './station.entity';
 import { CreateStationDto } from './dto/create-station.dto';
+import { UpdateStationDto } from './dto/update-station.dto';
 
 @Injectable()
 export class StationsService {
@@ -38,5 +39,34 @@ export class StationsService {
     }
 
     return station;
+  }
+
+  async update(id: number, data: UpdateStationDto) {
+    const station = await this.findOne(id);
+
+    if (data.code && data.code !== station.code) {
+      const oldStation = await this.stationRepo.findOne({
+        where: { code: data.code },
+      });
+
+      if (oldStation) {
+        throw new BadRequestException('Station code already exists');
+      }
+    }
+
+    Object.assign(station, data);
+    return this.stationRepo.save(station);
+  }
+
+  async remove(id: number) {
+    const station = await this.findOne(id);
+
+    station.isActive = false;
+
+    await this.stationRepo.save(station);
+
+    return {
+      message: 'Station deactivated successfully',
+    };
   }
 }
