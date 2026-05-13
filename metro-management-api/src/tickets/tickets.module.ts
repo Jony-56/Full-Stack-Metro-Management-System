@@ -9,6 +9,7 @@ import { User } from '../users/entities/user.entity';
 import { Route } from '../routes/route.entity';
 import { Train } from '../trains/train.entity';
 import { Station } from '../stations/station.entity';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { Station } from '../stations/station.entity';
       secret: 'mysecretkey',
       signOptions: { expiresIn: '1d' },
     }),
+    MailModule,
   ],
   controllers: [TicketsController],
   providers: [TicketsService],

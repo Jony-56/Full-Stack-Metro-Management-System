@@ -11,6 +11,7 @@ import { Payment, PaymentStatus } from './payment.entity';
 import { Ticket, TicketStatus } from '../tickets/ticket.entity';
 import { User } from '../users/entities/user.entity';
 import { CreatePaymentDto } from './dto/create-payment.dto';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class PaymentsService {
@@ -23,6 +24,7 @@ export class PaymentsService {
 
     @InjectRepository(User)
     private userRepo: Repository<User>,
+    private mailService: MailService,
   ) {}
 
   async create(userId: number, data: CreatePaymentDto) {
@@ -82,7 +84,18 @@ export class PaymentsService {
       paidAt: new Date(),
     });
 
-    return this.paymentRepo.save(payment);
+    const savedPayment = await this.paymentRepo.save(payment);
+
+await this.mailService.sendPaymentSuccess(user.email, {
+  fullName: user.fullName,
+  ticketId: ticket.id,
+  amount: savedPayment.amount,
+  method: savedPayment.method,
+  transactionId: savedPayment.transactionId,
+  status: savedPayment.status,
+});
+
+return savedPayment;
   }
 
   findMyPayments(userId: number) {

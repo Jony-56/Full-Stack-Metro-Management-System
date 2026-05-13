@@ -11,6 +11,7 @@ import { TrainsModule } from './trains/trains.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { PaymentsModule } from './payments/payments.module';
 import { TripsModule } from './trips/trips.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -48,6 +49,8 @@ import { TripsModule } from './trips/trips.module';
     PaymentsModule,
 
     TripsModule,
+
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
