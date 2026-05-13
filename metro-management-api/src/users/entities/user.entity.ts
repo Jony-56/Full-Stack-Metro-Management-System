@@ -4,7 +4,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
 } from 'typeorm';
 
 export enum UserRole {
@@ -27,8 +26,8 @@ export class User {
   @Column({ nullable: true })
   phone: string;
 
- @Column({ select: false })
-password: string;
+  @Column({ select: false })
+  password: string;
 
   @Column({
     type: 'enum',
@@ -39,6 +38,12 @@ password: string;
 
   @Column({ default: true })
   isActive: boolean;
+
+ @Column({ type: 'varchar', nullable: true })
+resetToken: string | null;
+
+@Column({ type: 'timestamp', nullable: true })
+resetTokenExpiry: Date | null;
 
   @CreateDateColumn()
   createdAt: Date;
