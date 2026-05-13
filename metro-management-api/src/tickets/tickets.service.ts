@@ -151,5 +151,23 @@ export class TicketsService {
       message: 'Ticket cancelled successfully',
       ticket,
     };
+    
   }
+  
+  async updateStatus(id: number, status: TicketStatus) {
+  const ticket = await this.findOne(id);
+
+  if (ticket.status === TicketStatus.CANCELLED) {
+    throw new BadRequestException('Cancelled ticket status cannot be changed');
+  }
+
+  ticket.status = status;
+
+  await this.ticketRepo.save(ticket);
+
+  return {
+    message: 'Ticket status updated successfully',
+    ticket,
+  };
+}
 }

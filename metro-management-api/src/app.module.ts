@@ -10,6 +10,7 @@ import { RoutesModule } from './routes/routes.module';
 import { TrainsModule } from './trains/trains.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { PaymentsModule } from './payments/payments.module';
+import { TripsModule } from './trips/trips.module';
 
 @Module({
   imports: [
@@ -45,6 +46,8 @@ import { PaymentsModule } from './payments/payments.module';
     TicketsModule,
 
     PaymentsModule,
+
+    TripsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

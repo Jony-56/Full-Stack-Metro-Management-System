@@ -5,6 +5,7 @@ import {
   Get,
   Headers,
   Param,
+    Patch,
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { JwtService } from '@nestjs/jwt';
 
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
+import { UpdateTicketStatusDto } from './dto/update-ticket-status.dto';
 
 @Controller('tickets')
 export class TicketsController {
@@ -19,6 +21,30 @@ export class TicketsController {
     private ticketsService: TicketsService,
     private jwtService: JwtService,
   ) {}
+  private checkAdmin(authHeader: string) {
+  if (!authHeader) {
+    throw new UnauthorizedException('Token missing');
+  }
+
+  const token = authHeader.replace('Bearer ', '');
+  const user = this.jwtService.verify(token);
+
+  if (user.role !== 'admin') {
+    throw new UnauthorizedException('Only admin can perform this action');
+  }
+
+  return user;
+}
+
+@Patch(':id/status')
+updateStatus(
+  @Param('id') id: string,
+  @Body() body: UpdateTicketStatusDto,
+  @Headers('authorization') authHeader: string,
+) {
+  this.checkAdmin(authHeader);
+  return this.ticketsService.updateStatus(Number(id), body.status);
+}
 
   private getUserFromToken(authHeader: string) {
     if (!authHeader) {
