@@ -10,9 +10,13 @@ export class UsersService {
     private userRepo: Repository<User>,
   ) {}
 
-  findByEmail(email: string) {
-    return this.userRepo.findOne({ where: { email } });
-  }
+ async findByEmail(email: string) {
+  return this.userRepo
+    .createQueryBuilder('user')
+    .addSelect('user.password')
+    .where('user.email = :email', { email })
+    .getOne();
+}
 
   findById(id: number) {
     return this.userRepo.findOne({ where: { id } });

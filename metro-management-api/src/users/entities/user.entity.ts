@@ -27,8 +27,8 @@ export class User {
   @Column({ nullable: true })
   phone: string;
 
-  @Column()
-  password: string;
+ @Column({ select: false })
+password: string;
 
   @Column({
     type: 'enum',

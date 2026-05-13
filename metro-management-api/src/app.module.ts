@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { StationsModule } from './stations/stations.module';
 import { RoutesModule } from './routes/routes.module';
 import { TrainsModule } from './trains/trains.module';
+import { TicketsModule } from './tickets/tickets.module';
 
 @Module({
   imports: [
@@ -39,6 +40,8 @@ import { TrainsModule } from './trains/trains.module';
     RoutesModule,
 
     TrainsModule,
+
+    TicketsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
