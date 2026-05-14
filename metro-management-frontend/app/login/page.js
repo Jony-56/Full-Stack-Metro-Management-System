@@ -61,18 +61,24 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700">
-              Password
-            </label>
-            <input
-              type="password"
-              className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-cyan-500 text-black"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+  <label className="block text-sm font-medium text-slate-700">
+    Password
+  </label>
+  <input
+    type="password"
+    className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-cyan-500"
+    placeholder="Enter your password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+  />
+</div>
+
+<div className="text-right">
+  <Link href="/forgot-password" className="text-sm font-semibold text-cyan-600">
+    Forgot password?
+  </Link>
+</div>
 
           <button
             type="submit"

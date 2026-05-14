@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Sidebar({ role }) {
+export default function Sidebar({ role, mobileOpen, setMobileOpen }) {
   const pathname = usePathname();
 
   let menuItems = [];
@@ -38,11 +38,18 @@ export default function Sidebar({ role }) {
     ];
   }
 
-  return (
-    <aside className="fixed left-0 top-0 hidden h-screen w-64 bg-slate-950 p-5 text-white md:block">
-      <h1 className="mb-8 text-2xl font-bold text-cyan-400">
-        Metro MS
-      </h1>
+  const sidebarContent = (
+    <div className="h-full bg-slate-950 p-5 text-white">
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-cyan-400">Metro MS</h1>
+
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-white md:hidden"
+        >
+          X
+        </button>
+      </div>
 
       <nav className="space-y-2">
         {menuItems.map((item) => {
@@ -52,6 +59,7 @@ export default function Sidebar({ role }) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setMobileOpen(false)}
               className={
                 active
                   ? "block rounded-xl bg-cyan-500 px-4 py-3 font-medium text-slate-950"
@@ -63,6 +71,27 @@ export default function Sidebar({ role }) {
           );
         })}
       </nav>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 md:block">
+        {sidebarContent}
+      </aside>
+
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setMobileOpen(false)}
+          ></div>
+
+          <aside className="relative h-screen w-72">
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

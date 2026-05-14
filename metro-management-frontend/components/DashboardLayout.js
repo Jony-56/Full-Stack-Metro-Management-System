@@ -8,7 +8,9 @@ import { getUser, getToken } from "../lib/auth";
 
 export default function DashboardLayout({ role, children }) {
   const router = useRouter();
+
   const [user, setUser] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const token = getToken();
@@ -29,12 +31,16 @@ export default function DashboardLayout({ role, children }) {
 
   return (
     <main className="min-h-screen bg-slate-100">
-      <Sidebar role={role} />
+      <Sidebar
+        role={role}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
 
       <section className="p-4 md:ml-64 md:p-6">
-        <Topbar user={user} />
+        <Topbar user={user} setMobileOpen={setMobileOpen} />
 
-        <div>{children}</div>
+        <div className="mx-auto max-w-7xl">{children}</div>
       </section>
     </main>
   );
