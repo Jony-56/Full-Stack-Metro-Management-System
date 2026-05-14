@@ -136,15 +136,42 @@ export class UsersService {
     };
   }
 
-  async deactivateUser(id: number) {
-    const user = await this.findById(id);
+ async updateUserByAdmin(id: number, data: Partial<User>) {
+  const user = await this.findById(id);
 
-    user.isActive = false;
-
-    await this.userRepo.save(user);
-
-    return {
-      message: 'User deactivated successfully',
-    };
+  if (data.fullName !== undefined) {
+    user.fullName = data.fullName;
   }
+
+  if (data.phone !== undefined) {
+    user.phone = data.phone;
+  }
+
+  if (data.role !== undefined) {
+    user.role = data.role;
+  }
+
+  if (data.isActive !== undefined) {
+    user.isActive = data.isActive;
+  }
+
+  await this.userRepo.save(user);
+
+  return {
+    message: 'User updated successfully',
+    user,
+  };
+}
+
+async deactivateUser(id: number) {
+  const user = await this.findById(id);
+
+  user.isActive = false;
+
+  await this.userRepo.save(user);
+
+  return {
+    message: 'User deactivated successfully',
+  };
+}
 }

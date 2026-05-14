@@ -66,6 +66,15 @@ export class UsersController {
     const user = this.getUserFromToken(authHeader);
     return this.usersService.updateProfile(user.id, body);
   }
+  @Patch(':id')
+updateUserStatus(
+  @Param('id') id: string,
+  @Headers('authorization') authHeader: string,
+  @Body() body: any
+) {
+  this.checkAdmin(authHeader);
+  return this.usersService.updateUserByAdmin(Number(id), body);
+}
 
   @Patch('change-password')
   changePassword(
