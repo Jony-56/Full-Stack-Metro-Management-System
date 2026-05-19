@@ -23,6 +23,11 @@ export default function BookTicketPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
   const getRoutes = async () => {
     try {
       const res = await api.get("/routes");
@@ -140,6 +145,10 @@ export default function BookTicketPage() {
 
     if (sourceStationId === destinationStationId) {
       toast.error("Source and destination cannot be same");
+      return;
+    }
+    if (journeyDate < getTodayDate()) {
+      toast.error("Journey date cannot be before today");
       return;
     }
 
@@ -294,6 +303,7 @@ export default function BookTicketPage() {
               </label>
               <input
                 type="date"
+                min={getTodayDate()}
                 className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-cyan-500"
                 value={journeyDate}
                 onChange={(e) => setJourneyDate(e.target.value)}
